@@ -1,9 +1,10 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
+from playwright.sync_api import Playwright, sync_playwright
 
 app_link = ""
 Email = ""
 Password = ""
 Resume = ""
+
 
 def main(playwright: Playwright) -> None:
     browser = playwright.chromium.launch(headless=False)
@@ -33,7 +34,9 @@ def main(playwright: Playwright) -> None:
     page.locator("#input-20").check()
     page.locator("#input-23").get_by_label("Calendar").click()
     page.get_by_label("January").click()
-    page.get_by_role("group", name="From* current value is MM/YYYY").get_by_label("Calendar").click()
+    page.get_by_role("group", name="From* current value is MM/YYYY").get_by_label(
+        "Calendar"
+    ).click()
     page.get_by_label("July").click()
     page.get_by_label("To*").get_by_label("Calendar").click()
     page.get_by_label("August").click()
@@ -74,5 +77,6 @@ def main(playwright: Playwright) -> None:
     browser.close()
 
 
-with sync_playwright() as playwright:
-    run(playwright)
+if __name__ == "__main__":
+    with sync_playwright() as playwright:
+        main(playwright)
