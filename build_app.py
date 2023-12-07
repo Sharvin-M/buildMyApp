@@ -4,32 +4,44 @@ app_link = input("Enter the link to your WorkDay application: ")
 Email = input("Enter your email address: ")
 Password = input("Enter desired password: ")
 Resume = input("Enter the filepath to your resume: ")
+Address = input("Enter your address: ")
+City = input("Enter your city: ")
+State = input("Enter your state: ")
+Zip = input("Enter your zip code: ")
 
 
 def main(playwright: Playwright) -> None:
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
+    # go to page
     page.goto(app_link)
     page.get_by_role("button", name="Apply").click()
     page.get_by_role("button", name="Autofill with Resume").click()
     page.get_by_role("button", name="Create Account").click()
+   # create account  
     page.get_by_label("Email Address").click()
     page.get_by_label("Email Address").fill(Email)
+   # password for account  
     page.get_by_label("Password", exact=True).click()
     page.get_by_label("Password", exact=True).fill(Password)
     page.get_by_label("Password", exact=True).press("Tab")
     page.get_by_label("Verify New Password").fill(Password)
     page.get_by_label("Yes, I have read and consent").check()
     page.get_by_label("Create Account").click()
+   # next page after account creation 
     page.get_by_role("button", name="Select file").click()
     page.get_by_role("button", name="Select file").set_input_files(Resume)
     page.get_by_role("button", name="Continue").click()
+   # next page after resume upload 
+    
     page.get_by_label("How Did You Hear About Us?").click()
-    page.get_by_text("select oneCorporate").press("Enter")
-    page.get_by_label("No").check()
-    page.get_by_label("Phone Device Type select one").click()
-    page.get_by_text("Mobile").click()
+    page.get_by_label("How Did You Hear About Us?").fill("LinkedIn")
+    page.get_by_label("Address Line 1*").click()
+    page.get_by_label("Address Line 1*").fill(Address)
+    page.get_by_label("City*").click()
+    page.get_by_label("City*").fill(State)
+    page.get_by_label("Postal Code*").click()
     page.get_by_role("button", name="Save and Continue").click()
     page.locator("#input-20").check()
     page.locator("#input-23").get_by_label("Calendar").click()
