@@ -1,9 +1,9 @@
 from playwright.sync_api import Playwright, sync_playwright
 
-app_link = ""
-Email = ""
-Password = ""
-Resume = ""
+app_link = input("Enter the link to your WorkDay application: ")
+Email = input("Enter your email address: ")
+Password = input("Enter desired password: ")
+Resume = input("Enter the filepath to your resume: ")
 
 
 def main(playwright: Playwright) -> None:
