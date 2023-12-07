@@ -8,6 +8,8 @@ Address = input("Enter your address: ")
 City = input("Enter your city: ")
 State = input("Enter your state: ")
 Zip = input("Enter your zip code: ")
+LinkedIn = input("Enter your LinkedIn URL: ")
+GitHub = input("Enter your GitHub URL: ")
 
 
 def main(playwright: Playwright) -> None:
@@ -19,22 +21,22 @@ def main(playwright: Playwright) -> None:
     page.get_by_role("button", name="Apply").click()
     page.get_by_role("button", name="Autofill with Resume").click()
     page.get_by_role("button", name="Create Account").click()
-   # create account  
+    # create account
     page.get_by_label("Email Address").click()
     page.get_by_label("Email Address").fill(Email)
-   # password for account  
+    # password for account
     page.get_by_label("Password", exact=True).click()
     page.get_by_label("Password", exact=True).fill(Password)
     page.get_by_label("Password", exact=True).press("Tab")
     page.get_by_label("Verify New Password").fill(Password)
     page.get_by_label("Yes, I have read and consent").check()
     page.get_by_label("Create Account").click()
-   # next page after account creation 
+    # next page after account creation
     page.get_by_role("button", name="Select file").click()
     page.get_by_role("button", name="Select file").set_input_files(Resume)
     page.get_by_role("button", name="Continue").click()
-   # next page after resume upload 
-    
+    # next page after resume upload
+
     page.get_by_label("How Did You Hear About Us?").click()
     page.get_by_label("How Did You Hear About Us?").fill("LinkedIn")
     page.get_by_label("Address Line 1*").click()
@@ -43,9 +45,6 @@ def main(playwright: Playwright) -> None:
     page.get_by_label("City*").fill(State)
     page.get_by_label("Postal Code*").click()
     page.get_by_role("button", name="Save and Continue").click()
-    page.locator("#input-20").check()
-    page.locator("#input-23").get_by_label("Calendar").click()
-    page.get_by_label("January").click()
     page.get_by_role("group", name="From* current value is MM/YYYY").get_by_label(
         "Calendar"
     ).click()
@@ -56,11 +55,12 @@ def main(playwright: Playwright) -> None:
     page.get_by_label("From", exact=True).get_by_label("Year").fill("2022")
     page.get_by_text("YYYY", exact=True).click()
     page.get_by_label("To (Actual or Expected)").get_by_label("Year").fill("2025")
-    page.get_by_role("button", name="Save and Continue").click()
-    page.get_by_role("button", name="Back").click()
     page.get_by_label("Add Websites").click()
     page.get_by_label("URL*").click()
-    page.get_by_label("URL*").fill("https://github.com/Sharvin-M")
+    if page.get_by_label("LinkedIn").is_visible():
+        page.get_by_label("URL*").fill(LinkedIn)
+    elif page.get_by_label("GitHub").is_visible():
+        page.get_by_label("URL*").fill("https://github.com/Sharvin-M")
     page.get_by_role("button", name="Save and Continue").click()
     page.get_by_label("Are you eligible to work in").click()
     page.get_by_text("Yes").click()
